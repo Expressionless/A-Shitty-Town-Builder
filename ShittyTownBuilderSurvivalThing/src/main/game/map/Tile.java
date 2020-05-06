@@ -12,8 +12,8 @@ public class Tile {
 	
 	private Image tileSprite;
 	
-	public Tile(int x, int y, Image sprite) {
-		bounds = new Rectangle(x, y, GameConstants.TILE_WIDTH, GameConstants.TILE_HEIGHT);
+	public Tile(float t_x, float t_y, Image sprite) {
+		bounds = new Rectangle(t_x, t_y, GameConstants.TILE_WIDTH, GameConstants.TILE_HEIGHT);
 		tileSprite = sprite;
 	}
 	

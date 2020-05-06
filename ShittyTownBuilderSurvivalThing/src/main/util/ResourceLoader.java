@@ -1,4 +1,4 @@
-package main.game.util;
+package main.util;
 
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -22,6 +22,8 @@ public class ResourceLoader {
 	public static final HashMap<String, Image> SPRITES = new HashMap<String, Image>();
 	public static final HashMap<String, SpriteSheet> SPRITE_SHEETS = new HashMap<String, SpriteSheet>();
 
+	public static final HashMap<String, SpriteSheet> TILE_SHEETS = new HashMap<String, SpriteSheet>();
+	
 	public static final HashMap<String, Image> UI = new HashMap<String, Image>();
 
 	public static final HashMap<String, Map> MAPS = new HashMap<String, Map>();
@@ -38,6 +40,14 @@ public class ResourceLoader {
 		String path = "res\\sprites\\UI\\";
 	}
 
+	public static void loadSpriteSheets() {
+		String path = "\\res\\sprites";
+		TILE_SHEETS.put("grass", loadSpriteSheet(path + "\\tiles\\Grass", 24, 24));
+		SPRITE_SHEETS.put("trees", loadSpriteSheet(path + "\\Props\\trees", 48, 48));
+		
+		SPRITE_SHEETS.put("cursor", loadSpriteSheet(path + "\\ui\\cursor", 24, 24));
+	}
+	
 	public static void loadMenuSprites() {
 		SPRITE_SHEETS.put("menu_button", loadSpriteSheet("res\\sprites\\menu\\button_anim", 220, 60));
 		SPRITE_SHEETS.put("menu_buttonR", loadSpriteSheet("res\\sprites\\menu\\button_animR", 220, 60));
@@ -50,14 +60,14 @@ public class ResourceLoader {
 	public static void initResources() {
 
 		try {
-			missing = new Image(ABS_PATH + "res\\sprites\\missingtex.png");
-			missingSS = new SpriteSheet(ABS_PATH + "res\\sprites\\missingtex.png", 48, 48);
+			missing = new Image(ABS_PATH + "\\res\\sprites\\missingtex.png");
+			missingSS = new SpriteSheet(ABS_PATH + "\\res\\sprites\\missingtex.png", 48, 48);
 		} catch (SlickException e) {
 			System.err.println("Failed to load missingtex.png");
 			e.printStackTrace();
 		}
 		// Don't change the load order please
-		loadFonts();
+		loadSpriteSheets();
 		loadMenuSprites();
 		loadSprites();
 		loadUI();
@@ -70,12 +80,13 @@ public class ResourceLoader {
 			Font f = Font.createFont(Font.TRUETYPE_FONT, is);
 			f = f.deriveFont(size * 1f);
 			ttf = new TrueTypeFont(f, false);
-		} catch (FontFormatException | IOException e) {
+			return ttf;
+		} catch (RuntimeException | FontFormatException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		}
 
-		return ttf;
 	}
 
 	public static Image loadImage(String dir) {
