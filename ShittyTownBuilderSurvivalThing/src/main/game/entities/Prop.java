@@ -7,7 +7,7 @@ import main.game.map.Map;
 
 public abstract class Prop extends Entity {
 
-	public Prop(Map m, float x, float y, Image sprite) {
-		super(m, x, y, sprite);
+	public Prop(Map m, float x, float y, Image sprite, float depth) {
+		super(m, x, y, sprite, depth);
 	}
 }

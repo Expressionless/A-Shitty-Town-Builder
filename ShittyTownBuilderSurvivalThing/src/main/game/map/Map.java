@@ -1,15 +1,19 @@
 package main.game.map;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Rectangle;
 
 import main.Engine;
 import main.GameConstants;
 import main.game.Entity;
-import main.game.controller.Cursor;
 import main.game.controller.View;
+import main.game.entities.mobs.Player;
+import main.game.entities.mobs.neutral.Pig;
 
 public class Map {
 
@@ -17,11 +21,14 @@ public class Map {
 
 	private Chunk[][] chunkMap;
 	
+	private Player player;
+	
 	private int width, height;
 
 	private View view;
 
 	public Map(int width, int height) {
+		System.out.println("creating map");
 		this.width = width;
 		this.height = height;
 		
@@ -41,20 +48,22 @@ public class Map {
 				chunkMap[i][j] = chunk;
 			}
 		}
+		new Pig(this, 32, 48);
 
-		view = new View(0, 0, GameConstants.WIDTH, GameConstants.HEIGHT);
+		player = new Player(this, (float)width / 2, (float)height / 2);
+		view = new View(this, 0, 0, GameConstants.WIDTH, GameConstants.HEIGHT, player);
 	}
 
 	public void tick() {
 		// Update the view
 		view.tick(Engine.getInput());
-
+		
 		// Update the entities
 		for (Entity entity : ENTITIES) {
 			entity.tick();
 		}
 	}
-
+	
 	public void render(Graphics g) {
 
 		// Render the tiles if they're within the view
@@ -64,6 +73,9 @@ public class Map {
 					chunk.render(g);
 			}
 		}
+		
+		// Sort entities by depth
+		Collections.sort(ENTITIES, (Comparator<Entity>) (Entity e1,  Entity e2) -> (int)(e1.getDepth() - e2.getDepth()));
 
 		// Render the entities if they're within the view
 		for (Entity entity : ENTITIES) {
@@ -76,6 +88,12 @@ public class Map {
 		g.draw(view.getViewBounds());
 		g.setColor(Color.blue);
 		g.draw(view.getRenderBounds());
+		
+		g.setColor(Color.white);
+		Rectangle focus = view.getFocalBounds();
+		if(focus != null) {
+			g.draw(focus);
+		}
 	}
 
 	public boolean addEntity(Entity e) {
@@ -123,6 +141,10 @@ public class Map {
 
 	public float getHeight() {
 		return height;
+	}
+
+	public Player getPlayer() {
+		return player;
 	}
 
 }

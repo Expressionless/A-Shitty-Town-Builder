@@ -19,4 +19,18 @@ public class GameConstants {
 	public static final int CAMERA_UP = Input.KEY_UP;
 	public static final int CAMERA_LEFT = Input.KEY_LEFT;
 	public static final int CAMERA_RIGHT = Input.KEY_RIGHT;
+
+	public static final int PLAYER_UP = Input.KEY_W;
+	public static final int PLAYER_LEFT = Input.KEY_A;
+	public static final int PLAYER_DOWN = Input.KEY_S;
+	public static final int PLAYER_RIGHT = Input.KEY_D;
+	
+	// Depth values
+	public static final int TREE_DEPTH = 40;
+	public static final int HUMAN_DEPTH = 32;
+	public static final int MEDIUM_ANIMAL_DEPTH = 24;
+	
+	// Mob States
+	public static final int STATE_IDLE = 0;
+	public static final int STATE_MOVING = 1;
 }

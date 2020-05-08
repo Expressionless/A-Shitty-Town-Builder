@@ -14,7 +14,7 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 
 import main.GameConstants;
-import main.game.props.Tree;
+import main.game.entities.props.Tree;
 import main.util.ResourceLoader;
 
 public class Chunk {
@@ -32,7 +32,7 @@ public class Chunk {
 		
 		// Initialize all the tiles in the chunk
 		tileMap = createChunk();
-		addTrees();
+		addTrees(TREE_DENSITY);
 	}
 	
 	public Tile[][] createChunk() {
@@ -55,13 +55,13 @@ public class Chunk {
 		return t_map;
 	}
 	
-	public void addTrees() {
+	public void addTrees(int density) {
 		Random r = new Random();
 		SpriteSheet ss = ResourceLoader.SPRITE_SHEETS.get("trees");
 		float width = ss.getSubImage(0, 0).getWidth();
 		float height = ss.getSubImage(0, 0).getHeight();
 		// Populate chunk with trees according to tree density
-		for(int i = 0; i < TREE_DENSITY; i++) {
+		for(int i = 0; i < density; i++) {
 			float x = bounds.getX() + r.nextInt(CHUNK_WIDTH) * TILE_WIDTH + width / 4;
 			float y = bounds.getY() + r.nextInt(CHUNK_HEIGHT) * TILE_HEIGHT + height / 4;
 			

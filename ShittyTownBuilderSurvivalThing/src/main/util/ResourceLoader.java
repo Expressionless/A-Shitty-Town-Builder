@@ -33,7 +33,8 @@ public class ResourceLoader {
 	public static SpriteSheet missingSS;
 
 	public static void loadSprites() {
-		String path = "res\\sprites\\";
+		String path = "\\res\\sprites\\";
+		SPRITES.put("player", loadImage(path + "mobs\\player"));
 	}
 
 	public static void loadUI() {
@@ -41,11 +42,12 @@ public class ResourceLoader {
 	}
 
 	public static void loadSpriteSheets() {
-		String path = "\\res\\sprites";
-		TILE_SHEETS.put("grass", loadSpriteSheet(path + "\\tiles\\Grass", 24, 24));
-		SPRITE_SHEETS.put("trees", loadSpriteSheet(path + "\\Props\\trees", 48, 48));
+		String path = "\\res\\sprites\\";
+		TILE_SHEETS.put("grass", loadSpriteSheet(path + "tiles\\Grass", 24, 24));
+		SPRITE_SHEETS.put("trees", loadSpriteSheet(path + "Props\\trees", 48, 48));
 		
-		SPRITE_SHEETS.put("cursor", loadSpriteSheet(path + "\\ui\\cursor", 24, 24));
+		SPRITE_SHEETS.put("cursor", loadSpriteSheet(path + "ui\\cursor", 24, 24));
+		SPRITE_SHEETS.put("pig", loadSpriteSheet(path + "mobs\\pig", 24, 24));
 	}
 	
 	public static void loadMenuSprites() {
@@ -68,7 +70,7 @@ public class ResourceLoader {
 		}
 		// Don't change the load order please
 		loadSpriteSheets();
-		loadMenuSprites();
+		//loadMenuSprites();
 		loadSprites();
 		loadUI();
 	}

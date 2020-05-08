@@ -42,16 +42,15 @@ public class Cursor implements MouseListener {
 	}
 	
 	public void update() {
-		Rectangle offset = map.getView().getViewBounds();
+		Point game_mouse = map.getView().viewToGame(mouse);
 		
-		bounds.setX((float)Math.floor((mouse.getX() + offset.getX()) / TILE_WIDTH) * TILE_WIDTH);
-		bounds.setY((float)Math.floor((mouse.getY() + offset.getY()) / TILE_HEIGHT) * TILE_HEIGHT);
+		bounds.setX((float)Math.floor(game_mouse.getX() / TILE_WIDTH) * TILE_WIDTH);
+		bounds.setY((float)Math.floor(game_mouse.getY() / TILE_HEIGHT) * TILE_HEIGHT);
 	}
 	
 	public void render(Graphics g) {
-		g.setColor(color);
 		if(sprite != null)
-			g.drawAnimation(sprite, (int)Math.floor(bounds.getX()), (int)Math.floor(bounds.getY()));
+			g.drawAnimation(sprite, (int)Math.floor(bounds.getX()), (int)Math.floor(bounds.getY()), color);
 	}
 	
 	@Override
@@ -103,15 +102,15 @@ public class Cursor implements MouseListener {
 		// TODO Auto-generated method stub
 		color.b = 0;
 		color.g = 0;
-		color.r = 255;
+		color.r = 1;
 	}
 
 	@Override
 	public void mouseReleased(int button, int x, int y) {
 		// TODO Auto-generated method stub
-		color.b = 255;
-		color.g = 255;
-		color.r = 255;
+		color.b = 1;
+		color.g = 1;
+		color.r = 1;
 	}
 
 	@Override
