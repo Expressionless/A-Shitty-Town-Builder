@@ -14,6 +14,7 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 
 import main.GameConstants;
+import main.game.entities.mobs.neutral.Pig;
 import main.game.entities.props.Tree;
 import main.util.ResourceLoader;
 
@@ -33,6 +34,7 @@ public class Chunk {
 		// Initialize all the tiles in the chunk
 		tileMap = createChunk();
 		addTrees(TREE_DENSITY);
+		addPigs(3);
 	}
 	
 	public Tile[][] createChunk() {
@@ -66,6 +68,19 @@ public class Chunk {
 			float y = bounds.getY() + r.nextInt(CHUNK_HEIGHT) * TILE_HEIGHT + height / 4;
 			
 			new Tree(map, x, y);
+		}
+	}
+	
+	public void addPigs(int density) {
+		Random r = new Random();
+
+		float width = Pig.ss.getSubImage(0, 0).getWidth();
+		float height = Pig.ss.getSubImage(0, 0).getHeight();
+		
+		for(int i = 0; i < density; i++) {
+			float x = bounds.getX() + r.nextInt(CHUNK_WIDTH) * TILE_WIDTH + width / 4;
+			float y = bounds.getY() + r.nextInt(CHUNK_HEIGHT) * TILE_HEIGHT + height / 4;
+			new Pig(map, x, y);
 		}
 	}
 	

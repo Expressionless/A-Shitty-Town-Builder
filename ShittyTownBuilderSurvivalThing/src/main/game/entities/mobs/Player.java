@@ -1,5 +1,6 @@
 package main.game.entities.mobs;
 
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Point;
@@ -9,23 +10,27 @@ import main.GameConstants;
 import main.game.entities.Mob;
 import main.game.map.Map;
 import main.util.ResourceLoader;
+import main.util.Utils;
 
 public class Player extends Mob {
 
 	public Player(Map m, float x, float y) {
 		super(m, x, y, ResourceLoader.SPRITES.get("player"), GameConstants.HUMAN_DEPTH);
-		// TODO Auto-generated constructor stub
 	}
-
+	
 	@Override
 	public void step() {
-		// TODO Auto-generated method stub
+		
+		float mouse_x = Mouse.getX();
+		float mouse_y = GameConstants.HEIGHT - Mouse.getY();
+		
+		Point game_mouse = map.getView().viewToGame(new Point(mouse_x, mouse_y));
+		direction = Utils.getPointDirection(getCentrePoint(), game_mouse);
+		sprite.setRotation(direction);
 	}
 
 	@Override
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
-
 	}
 
 	// Input Code
@@ -57,7 +62,6 @@ public class Player extends Mob {
 
 	@Override
 	public void handleStates() {
-		// TODO Auto-generated method stub
 		Point move_vec = pollInput(Engine.getInput());
 		move(move_vec);
 	}

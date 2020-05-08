@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Rectangle;
 
 import main.Engine;
 import main.GameConstants;
@@ -20,9 +18,9 @@ public class Map {
 	public static final ArrayList<Entity> ENTITIES = new ArrayList<Entity>();
 
 	private Chunk[][] chunkMap;
-	
+
 	private Player player;
-	
+
 	private int width, height;
 
 	private View view;
@@ -31,39 +29,37 @@ public class Map {
 		System.out.println("creating map");
 		this.width = width;
 		this.height = height;
-		
+
 		// Create the chunkMap array
 		float chunk_width_px = GameConstants.TILE_WIDTH * MapConstants.CHUNK_WIDTH;
 		float chunk_height_px = GameConstants.TILE_HEIGHT * MapConstants.CHUNK_HEIGHT;
 
-		int chunk_xcount = (int) Math.ceil(width / chunk_width_px);
-		int chunk_ycount = (int) Math.ceil(height / chunk_height_px);
+		chunkMap = new Chunk[height][width];
 
-		chunkMap = new Chunk[chunk_xcount][chunk_ycount];
-
-		for (int i = 0; i < chunk_xcount; i++) {
-			for (int j = 0; j < chunk_ycount; j++) {
-				Chunk chunk = new Chunk(this, i * chunk_width_px, j * chunk_height_px, "A chunky boi");
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				Chunk chunk = new Chunk(this, j * chunk_width_px, i * chunk_height_px, "A chunky boi");
 
 				chunkMap[i][j] = chunk;
 			}
 		}
 		new Pig(this, 32, 48);
 
-		player = new Player(this, (float)width / 2, (float)height / 2);
-		view = new View(this, 0, 0, GameConstants.WIDTH, GameConstants.HEIGHT, player);
+		player = new Player(this, (float) (width * chunk_width_px) / 2, (float) (height * chunk_height_px) / 2);
+		view = new View(this, player.getPos().getX() - GameConstants.WIDTH / 2,
+				player.getPos().getY() - GameConstants.HEIGHT / 2, GameConstants.WIDTH, GameConstants.HEIGHT, player);
 	}
 
 	public void tick() {
 		// Update the view
 		view.tick(Engine.getInput());
-		
+
 		// Update the entities
 		for (Entity entity : ENTITIES) {
 			entity.tick();
 		}
 	}
-	
+
 	public void render(Graphics g) {
 
 		// Render the tiles if they're within the view
@@ -73,26 +69,15 @@ public class Map {
 					chunk.render(g);
 			}
 		}
-		
+
 		// Sort entities by depth
-		Collections.sort(ENTITIES, (Comparator<Entity>) (Entity e1,  Entity e2) -> (int)(e1.getDepth() - e2.getDepth()));
+		Collections.sort(ENTITIES,
+				(Comparator<Entity>) (Entity e1, Entity e2) -> (int) (e1.getDepth() - e2.getDepth()));
 
 		// Render the entities if they're within the view
 		for (Entity entity : ENTITIES) {
 			if (view.rectInView(entity.getBounds()))
 				entity.render(g);
-		}
-
-		// Render the view stuff
-		g.setColor(Color.red);
-		g.draw(view.getViewBounds());
-		g.setColor(Color.blue);
-		g.draw(view.getRenderBounds());
-		
-		g.setColor(Color.white);
-		Rectangle focus = view.getFocalBounds();
-		if(focus != null) {
-			g.draw(focus);
 		}
 	}
 

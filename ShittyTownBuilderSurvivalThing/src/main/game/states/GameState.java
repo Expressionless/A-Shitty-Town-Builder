@@ -17,7 +17,7 @@ public class GameState extends State {
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		map = new Map(320, 320);
+		map = new Map(32, 32);
 		cursor = new Cursor(map, 0, 0);
 		loaded = true;
 	}
@@ -40,7 +40,7 @@ public class GameState extends State {
 
 		g.translate(-offset.getX(), -offset.getY());
 		map.render(g);
-		map.getView().render(g);
+		//map.getView().render(g);
 		cursor.render(g);
 		g.translate(offset.getX(), offset.getY());
 		map.getView().renderUI(g);

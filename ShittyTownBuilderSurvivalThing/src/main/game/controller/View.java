@@ -105,6 +105,18 @@ public class View {
 				focalBounds.getY() + focalBounds.getHeight() / 2);
 			g.drawLine(currentPos.getX(), currentPos.getY(), focalPoint.getX(), focalPoint.getY());
 		}
+
+		// Render the view stuff
+		g.setColor(Color.red);
+		g.draw(bounds);
+		g.setColor(Color.blue);
+		g.draw(renderBounds);
+		
+		g.setColor(Color.white);
+		Rectangle focus = focalBounds;
+		if(focus != null) {
+			g.draw(focus);
+		}
 	}
 	
 	
@@ -120,13 +132,16 @@ public class View {
 	public void updateRectangles(Point move_vec) {
 		// Update bounds based on centre point
 
-		final float LERP_FACTOR = 0.3f;
+		final float LERP_FACTOR = 0.03f;
 
 		targetPoint.setX(targetPoint.getX() + move_vec.getX());
 		targetPoint.setY(targetPoint.getY() + move_vec.getY());
 
-		bounds.setX(Utils.lerp(bounds.getX(), targetPoint.getX(), LERP_FACTOR));
-		bounds.setY(Utils.lerp(bounds.getY(), targetPoint.getY(), LERP_FACTOR));
+		float dX = targetPoint.getX() - bounds.getX();
+		float dY = targetPoint.getY() - bounds.getY();
+		
+		bounds.setX(bounds.getX() + dX * LERP_FACTOR);
+		bounds.setY(bounds.getY() + dY * LERP_FACTOR);
 
 		// Update render bounds based on bounds position
 		renderBounds.setX(bounds.getX() - T_BUFFER * GameConstants.TILE_WIDTH);
