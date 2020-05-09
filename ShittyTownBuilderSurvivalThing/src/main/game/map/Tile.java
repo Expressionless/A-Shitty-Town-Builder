@@ -4,7 +4,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 
-import main.GameConstants;
 
 public class Tile {
 
@@ -13,7 +12,7 @@ public class Tile {
 	private Image tileSprite;
 	
 	public Tile(float t_x, float t_y, Image sprite) {
-		bounds = new Rectangle(t_x, t_y, GameConstants.TILE_WIDTH, GameConstants.TILE_HEIGHT);
+		bounds = new Rectangle(t_x, t_y, MapConstants.TILE_WIDTH, MapConstants.TILE_HEIGHT);
 		tileSprite = sprite;
 	}
 	
@@ -22,6 +21,10 @@ public class Tile {
 	}
 	
 	public void render(Graphics g) {
+		render(g, 255);
+	}
+	
+	public void render(Graphics g, int climate) {
 		// Render the sprite
 		g.drawImage(tileSprite, (int)Math.floor(bounds.getX()), (int)Math.floor(bounds.getY()));
 	}

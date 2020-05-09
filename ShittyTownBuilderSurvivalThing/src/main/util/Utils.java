@@ -1,5 +1,7 @@
 package main.util;
 
+import java.util.Random;
+
 import org.newdawn.slick.geom.Point;
 
 public class Utils {
@@ -31,5 +33,19 @@ public class Utils {
 			return angle;
 		} else
 			return 360 - angle;
+	}
+	
+	/**
+	 * 
+	 * @param min
+	 * @param max
+	 * @return A random int between the min and max values
+	 */
+	
+	public static int getRandInRange(int min, int max) {
+		int variation = max - min;
+		if(variation > 0)
+			return min + new Random().nextInt(variation);
+		else return min;
 	}
 }

@@ -13,6 +13,7 @@ import org.newdawn.slick.geom.Rectangle;
 import main.GameConstants;
 import main.game.entities.Mob;
 import main.game.map.Map;
+import main.game.map.MapConstants;
 import main.util.ResourceLoader;
 import main.util.Utils;
 
@@ -77,7 +78,7 @@ public class Pig extends Mob {
 				// Set a new point
 				float new_dir = r.nextFloat() * 360;
 
-				float move_radius = GameConstants.TILE_WIDTH * (3 + r.nextInt(2)); // Move 3 - 5 tiles around
+				float move_radius = MapConstants.TILE_WIDTH * (3 + r.nextInt(2)); // Move 3 - 5 tiles around
 
 				float lengthdir_x = (float) Math.cos(new_dir) * move_radius;
 				float lengthdir_y = (float) Math.sin(new_dir) * move_radius;

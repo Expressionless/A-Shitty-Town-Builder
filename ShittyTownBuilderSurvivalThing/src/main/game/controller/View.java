@@ -1,5 +1,7 @@
 package main.game.controller;
 
+import org.lwjgl.input.Mouse;
+import org.lwjgl.util.Dimension;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -10,37 +12,53 @@ import main.GameConstants;
 import main.game.Entity;
 import main.game.entities.mobs.Player;
 import main.game.map.Map;
+import main.game.map.MapConstants;
 import main.util.Utils;
 
 public class View {
 
+	// View Stuff
 	private Rectangle bounds;
 	private Rectangle renderBounds;
 	private Point targetPoint;
-
+	private Point zoomOffset;
+	private float zoom;
+	private float targetZoom;
+	
+	
 	private Point focalPoint;
 	private Entity focusedEntity;
 	private Rectangle focalBounds;
 
 	private Map map;
 	
-	private float mspeed = 10;
+	private Dimension base_size;
+	
+	private float mspeed = GameConstants.CAMERA_SPEED;
 
 	private static final int T_BUFFER = 1;
 
 	// For views with a focal point
 	public View(Map map, float x, float y, float width, float height, Entity focus) {
+		zoomOffset = new Point(0,0);
 		this.map = map;
 		initRects(x, y, width, height);
 		focalPoint = focus.getCentrePoint();
 		float focal_width = width / 4;
 		float focal_height = height / 4;
 		
+		base_size = new Dimension();
+		base_size.setWidth((int) width);
+		base_size.setHeight((int) height);
+		
 		focalBounds = new Rectangle(focalPoint.getX() - focal_width / 2, focalPoint.getY() - focal_width / 2, focal_width,
 				focal_height);
 
 		focusedEntity = focus;
 
+		targetZoom = 1f;
+		zoom = targetZoom;
+		
 		targetPoint = new Point(focalPoint.getX(), focalPoint.getY());
 	}
 
@@ -59,11 +77,11 @@ public class View {
 		// Setup the rendering rectangle that renders a 'buffer' around the window to
 		// prevent black borders
 
-		float render_x = x - T_BUFFER * GameConstants.TILE_WIDTH;
-		float render_y = y - T_BUFFER * GameConstants.TILE_HEIGHT;
+		float render_x = x - T_BUFFER * MapConstants.TILE_WIDTH;
+		float render_y = y - T_BUFFER * MapConstants.TILE_HEIGHT;
 
-		float render_width = width + 2 * T_BUFFER * GameConstants.TILE_WIDTH;
-		float render_height = height + 2 * T_BUFFER * GameConstants.TILE_HEIGHT;
+		float render_width = width + 2 * T_BUFFER * MapConstants.TILE_WIDTH;
+		float render_height = height + 2 * T_BUFFER * MapConstants.TILE_HEIGHT;
 
 		renderBounds = new Rectangle(render_x, render_y, render_width, render_height);
 
@@ -95,8 +113,9 @@ public class View {
 				move_vec = new Point(0, 0);
 		}
 		updateRectangles(move_vec);
+		//updateZoom();
+		
 	}
-	
 	
 	// For drawing to the game
 	public void render(Graphics g) {
@@ -128,6 +147,29 @@ public class View {
 		g.drawString("Player X: " + Float.toString(p.getPos().getX()), 16, 16);
 		g.drawString("Player Y: " + Float.toString(p.getPos().getY()), 16, 48);
 	}
+	
+	public void updateZoom() {
+		// Amount the zoom will change by
+		float deltaZoom = 0.005f;
+		int mouse_wheel = (int)Math.signum(Mouse.getDWheel());
+		targetZoom += mouse_wheel * deltaZoom;
+		
+		
+		
+		float previousZoom = zoom;
+		zoom = Utils.lerp(zoom, targetZoom, 0.075f);
+
+		float diffX = base_size.getWidth() * (previousZoom - zoom);
+		float diffY = base_size.getHeight() * (previousZoom - zoom);
+
+		zoomOffset.setX((float) (diffX * 0.5f / Math.pow((previousZoom + zoom) / 2, 2)));
+		zoomOffset.setY((float) (diffY * 0.5f / Math.pow((previousZoom + zoom) / 2, 2)));
+
+		if (zoom != previousZoom) {
+			targetPoint.setX(targetPoint.getX() - zoomOffset.getX());
+			targetPoint.setY(targetPoint.getY() - zoomOffset.getY());
+		}
+	}
 
 	public void updateRectangles(Point move_vec) {
 		// Update bounds based on centre point
@@ -140,13 +182,13 @@ public class View {
 		float dX = targetPoint.getX() - bounds.getX();
 		float dY = targetPoint.getY() - bounds.getY();
 		
-		bounds.setX(bounds.getX() + dX * LERP_FACTOR);
-		bounds.setY(bounds.getY() + dY * LERP_FACTOR);
+		bounds.setX(bounds.getX() + zoomOffset.getX() + dX * LERP_FACTOR);
+		bounds.setY(bounds.getY() + zoomOffset.getY() + dY * LERP_FACTOR);
 
 		// Update render bounds based on bounds position
-		renderBounds.setX(bounds.getX() - T_BUFFER * GameConstants.TILE_WIDTH);
-		renderBounds.setY(bounds.getY() - T_BUFFER * GameConstants.TILE_HEIGHT);
-
+		renderBounds.setX(bounds.getX() - T_BUFFER * MapConstants.TILE_WIDTH);
+		renderBounds.setY(bounds.getY() - T_BUFFER * MapConstants.TILE_HEIGHT);
+		
 		if (focalPoint != null) {
 
 			// Create the focus box and centre it in the screen
@@ -207,7 +249,21 @@ public class View {
 	public Point viewToGame(Point p) {
 		// Do some translations and return the point in the game's perspective from the
 		// view
-		return new Point(p.getX() + bounds.getX(), p.getY() + bounds.getY());
+		return new Point((p.getX() + bounds.getX()), (p.getY() + bounds.getY()));
+	}
+	
+	public Point getGameMouse() {
+		Point mouse_ui = getUIMouse();
+		
+		Point p = new Point(mouse_ui.getX() + bounds.getX(), mouse_ui.getY() + bounds.getY());
+		return p;
+	}
+	
+	public Point getUIMouse() {
+		float mouse_x = Mouse.getX();
+		float mouse_y = GameConstants.HEIGHT - Mouse.getY();
+		
+		return new Point(mouse_x, mouse_y);
 	}
 
 	// State checkers
@@ -237,5 +293,17 @@ public class View {
 
 	public Rectangle getFocalBounds() {
 		return focalBounds;
+	}
+
+	public float getZoom() {
+		return zoom;
+	}
+
+	public void setZoom(float zoom) {
+		this.zoom = zoom;
+	}
+
+	public float getTargetZoom() {
+		return targetZoom;
 	}
 }

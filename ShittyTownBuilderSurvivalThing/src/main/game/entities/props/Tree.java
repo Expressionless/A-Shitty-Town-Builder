@@ -13,12 +13,11 @@ import main.util.ResourceLoader;
 public class Tree extends Prop {
 
 	private static final SpriteSheet TREES = ResourceLoader.SPRITE_SHEETS.get("trees");
-	private static final int VARIANT_COUNT = TREES.getHorizontalCount();
 
-	public Tree(Map m, float x, float y) {
+	public Tree(Map m, float x, float y, int type) {
 		// Call super constructor with a randomly picked variant image from the trees
 		// sprite_sheet
-		super(m, x, y, TREES.getSubImage(new Random().nextInt(VARIANT_COUNT - 1), 0).copy(), GameConstants.TREE_DEPTH);
+		super(m, x, y, TREES.getSubImage(type, 0).copy(), GameConstants.TREE_DEPTH);
 		sprite.rotate(new Random().nextInt(360));
 	}
 

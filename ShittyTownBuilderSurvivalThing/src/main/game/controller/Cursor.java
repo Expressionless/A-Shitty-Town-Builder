@@ -1,7 +1,5 @@
 package main.game.controller;
 
-import static main.GameConstants.TILE_HEIGHT;
-import static main.GameConstants.TILE_WIDTH;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
@@ -16,6 +14,8 @@ import main.Engine;
 import main.game.map.Map;
 import main.util.ResourceLoader;
 
+import static main.game.map.MapConstants.TILE_WIDTH;
+import static main.game.map.MapConstants.TILE_HEIGHT;
 
 public class Cursor implements MouseListener {
 
@@ -42,7 +42,7 @@ public class Cursor implements MouseListener {
 	}
 	
 	public void update() {
-		Point game_mouse = map.getView().viewToGame(mouse);
+		Point game_mouse = map.getView().getGameMouse();
 		
 		bounds.setX((float)Math.floor(game_mouse.getX() / TILE_WIDTH) * TILE_WIDTH);
 		bounds.setY((float)Math.floor(game_mouse.getY() / TILE_HEIGHT) * TILE_HEIGHT);
@@ -100,17 +100,21 @@ public class Cursor implements MouseListener {
 	@Override
 	public void mousePressed(int button, int x, int y) {
 		// TODO Auto-generated method stub
-		color.b = 0;
-		color.g = 0;
-		color.r = 1;
+		if(button == 0) {
+			color.b = 0;
+			color.g = 0;
+			color.r = 1;
+		}
 	}
 
 	@Override
 	public void mouseReleased(int button, int x, int y) {
 		// TODO Auto-generated method stub
-		color.b = 1;
-		color.g = 1;
-		color.r = 1;
+		if(button == 0) {
+			color.b = 1;
+			color.g = 1;
+			color.r = 1;
+		}
 	}
 
 	@Override

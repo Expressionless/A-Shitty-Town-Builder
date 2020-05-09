@@ -17,7 +17,7 @@ public class GameState extends State {
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		map = new Map(32, 32);
+		map = new Map(3, 3);
 		cursor = new Cursor(map, 0, 0);
 		loaded = true;
 	}
@@ -34,16 +34,20 @@ public class GameState extends State {
 		// Set Color to the grass default color
 		g.setBackground(new Color(36, 70, 47));
 		// TODO Auto-generated method stub
-		View v = map.getView();
+		View view = map.getView();
 
-		Point offset = new Point(v.getViewBounds().getX(), v.getViewBounds().getY());
+		Point offset = new Point(view.getViewBounds().getX(), view.getViewBounds().getY());
 
 		g.translate(-offset.getX(), -offset.getY());
+		g.scale(view.getZoom(), view.getZoom());
 		map.render(g);
 		//map.getView().render(g);
 		cursor.render(g);
+		g.scale(1/view.getZoom(), 1/view.getZoom());
 		g.translate(offset.getX(), offset.getY());
-		map.getView().renderUI(g);
+		
+		// UI Rendering
+		view.renderUI(g);
 	}
 
 }

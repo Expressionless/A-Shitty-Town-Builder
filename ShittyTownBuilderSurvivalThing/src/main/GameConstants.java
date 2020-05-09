@@ -12,13 +12,11 @@ public class GameConstants {
 	public static final int WIDTH = 1280;
 	public static final int HEIGHT = 720;
 	
-	public static final int TILE_WIDTH = 24;
-	public static final int TILE_HEIGHT = 24;
-
 	public static final int CAMERA_DOWN = Input.KEY_DOWN;
 	public static final int CAMERA_UP = Input.KEY_UP;
 	public static final int CAMERA_LEFT = Input.KEY_LEFT;
 	public static final int CAMERA_RIGHT = Input.KEY_RIGHT;
+	public static final int CAMERA_SPEED = 15;
 
 	public static final int PLAYER_UP = Input.KEY_W;
 	public static final int PLAYER_LEFT = Input.KEY_A;
