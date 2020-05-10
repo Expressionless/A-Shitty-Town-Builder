@@ -72,7 +72,7 @@ public class Emitter {
 		this.min_size = min_size;
 		this.max_size = max_size;
 
-		spread = new Point(0, 0);
+		spread = new Point(0, 0);		
 		
 		interval = GameConstants.FPS / density;
 
@@ -88,18 +88,19 @@ public class Emitter {
 		} else if (timer > -1)
 			timer -= 1;
 
+		//Collections.sort(particles, (Comparator<Particle>) (Particle p1, Particle p2) -> (int) (p1.getDepth() - p2.getDepth()));
+		
 		for (Particle particle : particles)
 			if (particle != null)
 				particle.tick();
 
 	}
 
-	public void render(Graphics g) {
+	public void render(Graphics g, float climate, float lighting) {
 		for (Particle particle : particles) {
 			if (particle != null)
-				particle.render(g);
+				particle.render(g, climate, lighting);
 		}
-		
 		postDraw();
 	}
 
@@ -213,9 +214,6 @@ class FilterDestroyed implements Predicate<Particle> {
 
 	@Override
 	public boolean test(Particle p) {
-		// TODO Auto-generated method stub
-		if(p == null)
-			System.out.println("Removing particle");
 		return p == null;
 	}
 	

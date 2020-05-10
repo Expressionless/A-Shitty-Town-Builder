@@ -1,5 +1,6 @@
 package main.game.map;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
@@ -21,12 +22,19 @@ public class Tile {
 	}
 	
 	public void render(Graphics g) {
-		render(g, 255);
+		render(g, 1.0f, 1.0f);
 	}
 	
-	public void render(Graphics g, int climate) {
+	public void render(Graphics g, float climate) {
+		render(g, climate, 1.0f);
+	}
+	
+	public void render(Graphics g, float climate, float lighting) {
 		// Render the sprite
-		g.drawImage(tileSprite, (int)Math.floor(bounds.getX()), (int)Math.floor(bounds.getY()));
+		
+		Color render_col = new Color(lighting, lighting, lighting);
+		
+		g.drawImage(tileSprite, (int)Math.floor(bounds.getX()), (int)Math.floor(bounds.getY()), render_col);
 	}
 	
 	// Getters and Setters

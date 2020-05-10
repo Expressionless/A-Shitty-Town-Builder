@@ -3,9 +3,7 @@ package main.game.entities.mobs.neutral;
 import java.util.Random;
 
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
@@ -21,23 +19,21 @@ public class Pig extends Mob {
 
 	public static final SpriteSheet ss = ResourceLoader.SPRITE_SHEETS.get("pig");
 	
-	private Animation walk_anim;
-	
 	public static final int MIN_WAIT_TIME = 180; // 3 Seconds
 	public static final int MAX_WAIT_TIME = 300; // 5 Seconds
 	
 	public Pig(Map m, float x, float y) {
-		super(m, x, y, null, MapConstants.MEDIUM_ANIMAL_DEPTH);
-		walk_anim = new Animation(ss, 83);
-		origin = new Point(walk_anim.getWidth() / 2, walk_anim.getHeight() / 2);
-		bounds = new Rectangle(x - origin.getX() / 2, y - origin.getY() / 2, walk_anim.getWidth(), walk_anim.getHeight());
+		super(m, x, y, ss, MapConstants.MEDIUM_ANIMAL_DEPTH);
+		this.current_animation = new Animation(sprite, (int)((4.5f / (float)GameConstants.FPS) * 1000));
+		origin = new Point(current_animation.getWidth() / 2, current_animation.getHeight() / 2);
+		bounds = new Rectangle(x - origin.getX() / 2, y - origin.getY() / 2, current_animation.getWidth(), current_animation.getHeight());
 		
 		// Init stats
 		speed = 0;
 		max_speed = 1;
 		acceleration = 0.1f;
 		
-		walk_anim.setLooping(true);
+		current_animation.setLooping(true);
 	}
 
 	@Override
@@ -47,24 +43,6 @@ public class Pig extends Mob {
 
 	@Override
 	public void draw(Graphics g) {
-		if(speed != 0) {
-			//drawAnimRotated(g, walk_anim, bounds.getX(), bounds.getY());
-			walk_anim.start();
-			
-			// Cycle the animation
-			g.drawAnimation(walk_anim, bounds.getX(), bounds.getY(), new Color(0, 0, 0, 0));
-			
-			Image currentImage = walk_anim.getCurrentFrame().copy();
-			currentImage.setCenterOfRotation(origin.getX(), origin.getY());
-			currentImage.rotate(direction);
-
-			g.drawImage(currentImage, bounds.getX(), bounds.getY());
-		} else {
-			// Render the first image from anim
-			Image image = walk_anim.getImage(0).copy();
-			image.rotate(direction);
-			g.drawImage(image, bounds.getX(), bounds.getY());
-		}
 	}
 	public void handleStates() {
 		switch (state) {

@@ -1,23 +1,29 @@
 package main.game.entities.props;
 
+import java.util.Random;
+
 import org.newdawn.slick.Graphics;
 
-import main.game.Entity;
-import main.game.entities.Particle;
+import main.game.entities.Prop;
 import main.game.entities.psystem.Emitter;
 import main.game.entities.psystem.ParticleType;
 import main.game.map.Map;
 import main.game.map.MapConstants;
+import main.util.ResourceLoader;
 
-public class Campfire extends Entity {
+public class Campfire extends Prop {
 
 	private Emitter emitter;
 	
 	public Campfire(Map m, float x, float y) {
-		super(m, x, y, Particle.SPRITES.get(ParticleType.FLAME), MapConstants.CAMPFIRE_DEPTH - 1);
-		emitter = new Emitter(m, x, y, ParticleType.FLAME, 0.5f, 7);
-		emitter.getSpread().setX(10);
-		emitter.getSpread().setY(5);
+		super(m, x, y, ResourceLoader.SPRITE_SHEETS.get("campfire"), MapConstants.CAMPFIRE_DEPTH - 1);
+		emitter = new Emitter(m, x, y, ParticleType.FLAME, 0.5f, 30);
+		emitter.getSpread().setX(8);
+		emitter.getSpread().setY(8);
+		emitter.setAcceleration(0.00001f);
+		emitter.setDuration(90);
+		emitter.setMin_size(3f);
+		emitter.setMax_size(5f);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -25,17 +31,12 @@ public class Campfire extends Entity {
 	public void step() {
 		// TODO Auto-generated method stub
 		emitter.tick();
+		emitter.setDirection(new Random().nextFloat() * 360);
 	}
-
-	@Override
-	public void render(Graphics g) {
-		draw(g);
-	}
-	
 	@Override
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
-		emitter.render(g);
+		emitter.render(g, 1.0f, 1.0f);
 	}
 	
 }

@@ -17,7 +17,7 @@ public class GameState extends State {
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		map = new Map(3, 3);
+		map = new Map(3200, 3200);
 		cursor = new Cursor(map, 0, 0);
 		loaded = true;
 	}

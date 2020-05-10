@@ -9,8 +9,8 @@ public class MapConstants {
 	public static final int MEDIUM_ANIMAL_DEPTH = 24;
 
 	// Chunk Size in tiles
-	public static final int CHUNK_WIDTH = 16;
-	public static final int CHUNK_HEIGHT = 16;
+	public static final int CHUNK_WIDTH = 8;
+	public static final int CHUNK_HEIGHT = 8;
 	
 	// Tile Size in px
 	public static final int TILE_WIDTH = 24;
@@ -31,11 +31,5 @@ public class MapConstants {
 	public static final int MAX_BIOME_HEIGHT = 3;
 		
 	// No. of Trees per chunk
-	public static final int TREE_DENSITY = 8;
-	
-	public static final int BIOME_PLAINS = 0;
-	public static final int BIOME_FOREST = 1;
-	public static final int BIOME_DEAD_FOREST = 2;
-	
-	public static final int BIOME_VARIATION = 3;
+	public static final int TREE_DENSITY = 3;
 }

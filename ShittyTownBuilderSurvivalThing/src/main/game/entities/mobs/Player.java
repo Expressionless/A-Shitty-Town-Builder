@@ -1,7 +1,10 @@
 package main.game.entities.mobs;
 
 import org.lwjgl.input.Mouse;
+import org.newdawn.slick.Animation;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Point;
 
@@ -15,8 +18,12 @@ import main.util.Utils;
 
 public class Player extends Mob {
 
+	private Animation legs;
+	
 	public Player(Map m, float x, float y) {
-		super(m, x, y, ResourceLoader.SPRITES.get("player"), MapConstants.HUMAN_DEPTH);
+		super(m, x, y, ResourceLoader.SPRITE_SHEETS.get("player"), MapConstants.HUMAN_DEPTH);
+		this.current_animation = new Animation(sprite, (int)((1000 / GameConstants.FPS)));
+		legs = new Animation(ResourceLoader.SPRITE_SHEETS.get("player_legs"), 83);
 	}
 	
 	@Override
@@ -26,8 +33,17 @@ public class Player extends Mob {
 		float mouse_y = GameConstants.HEIGHT - Mouse.getY();
 		
 		Point game_mouse = map.getView().viewToGame(new Point(mouse_x, mouse_y));
-		direction = Utils.getPointDirection(getCentrePoint(), game_mouse);
-		sprite.setRotation(direction);
+		look_direction = Utils.getPointDirection(this.getCentrePoint(), game_mouse);
+	}
+	
+	@Override
+	public void prerender(Graphics g) {
+		if(speed != 0) {
+			g.drawAnimation(legs, bounds.getX(), bounds.getY(), new Color(255, 255, 255, 0));
+			Image cur_image = legs.getCurrentFrame().copy();
+			cur_image.setRotation(direction);
+			g.drawImage(cur_image, bounds.getX(), bounds.getY());
+		}
 	}
 
 	@Override
@@ -65,5 +81,7 @@ public class Player extends Mob {
 	public void handleStates() {
 		Point move_vec = pollInput(Engine.getInput());
 		move(move_vec);
+		speed = Utils.getDistTo(new Point(0,0), move_vec);
+		direction = Utils.getPointDirection(new Point(0, 0), move_vec);
 	}
 }

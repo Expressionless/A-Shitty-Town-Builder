@@ -14,28 +14,27 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.TrueTypeFont;
 
 import main.game.entities.Particle;
-import main.game.map.Map;
 
 public class ResourceLoader {
 
 	public static final int FONT_SIZE = 60;
 
-	public static final HashMap<String, Image> SPRITES = new HashMap<String, Image>();
 	public static final HashMap<String, SpriteSheet> SPRITE_SHEETS = new HashMap<String, SpriteSheet>();
-
 	public static final HashMap<String, SpriteSheet> TILE_SHEETS = new HashMap<String, SpriteSheet>();
 	
 	public static final HashMap<String, Image> UI = new HashMap<String, Image>();
-
-	public static final HashMap<String, Map> MAPS = new HashMap<String, Map>();
 	public static final HashMap<String, TrueTypeFont> FONTS = new HashMap<String, TrueTypeFont>();
 
 	public static Image missing;
 	public static SpriteSheet missingSS;
 
+	public static SpriteSheet toSpriteSheet(Image i) {
+		SpriteSheet s = new SpriteSheet(i, i.getWidth(), i.getHeight());
+		return s;
+	}
+	
 	public static void loadSprites() {
 		String path = "\\res\\sprites\\";
-		SPRITES.put("player", loadImage(path + "mobs\\player"));
 	}
 
 	public static void loadUI() {
@@ -44,11 +43,16 @@ public class ResourceLoader {
 
 	public static void loadSpriteSheets() {
 		String path = "\\res\\sprites\\";
-		TILE_SHEETS.put("grass", loadSpriteSheet(path + "tiles\\Grass", 24, 24));
-		SPRITE_SHEETS.put("trees", loadSpriteSheet(path + "Props\\trees", 48, 48));
+		TILE_SHEETS.put("grass", loadSpriteSheet(path + "tiles\\grass", 24, 24));
+		TILE_SHEETS.put("sand", loadSpriteSheet(path + "tiles\\sand", 24, 24));
+		
+		SPRITE_SHEETS.put("trees", loadSpriteSheet(path + "props\\trees", 48, 48));
 		
 		SPRITE_SHEETS.put("cursor", loadSpriteSheet(path + "ui\\cursor", 24, 24));
 		SPRITE_SHEETS.put("pig", loadSpriteSheet(path + "mobs\\pig", 24, 24));
+		SPRITE_SHEETS.put("player", loadSpriteSheet(path + "mobs\\player\\player", 24, 24));
+		SPRITE_SHEETS.put("player_legs", loadSpriteSheet(path + "mobs\\player\\legs", 24, 24));
+		SPRITE_SHEETS.put("campfire", loadSpriteSheet(path + "props\\camp_lit", 32, 32));
 	}
 	
 	public static void loadMenuSprites() {

@@ -2,8 +2,9 @@ package main.game.entities;
 
 
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Point;
+import org.newdawn.slick.opengl.Texture;
 
 import main.GameConstants;
 import main.game.Entity;
@@ -19,7 +20,7 @@ public abstract class Mob extends Entity {
 
 	protected int state;
 
-	public Mob(Map m, float x, float y, Image sprite, float depth) {
+	public Mob(Map m, float x, float y, SpriteSheet sprite, float depth) {
 		super(m, x, y, sprite, depth);
 		init();
 	}
@@ -36,8 +37,12 @@ public abstract class Mob extends Entity {
 		handleStates();
 	}
 
-	public void render(Graphics g) {
-		super.render(g);
+	public void prerender(Graphics g) {
+		
+	}
+	
+	public void render(Graphics g, float climate, float lighting) {
+		super.render(g, climate, lighting);
 	}
 
 
@@ -49,15 +54,17 @@ public abstract class Mob extends Entity {
 	public void move(float spd, float angle) {
 		float sin = (float) Math.sin(Math.toRadians(angle));
 		float cos = (float) Math.cos(Math.toRadians(angle));
+		direction = angle;
 		move(new Point(spd * cos, spd * sin));
 	}
 
 	public void moveTo(Point target) {
 		if (Utils.getDistTo(pos, target) >= (bounds.getWidth() / 2)) {
-			direction = Utils.getPointDirection(pos, target);
+			float dir = Utils.getPointDirection(pos, target);
+				
 			if (speed < max_speed)
 				speed += acceleration;
-			move(speed, direction);
+			move(speed, dir);
 		} else
 			speed = 0;
 	}

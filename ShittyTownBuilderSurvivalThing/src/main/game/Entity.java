@@ -1,12 +1,16 @@
 package main.game;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
+import main.GameConstants;
 import main.game.entities.Particle;
+import main.game.entities.mobs.Player;
 import main.game.map.Map;
 
 public abstract class Entity {
@@ -15,29 +19,33 @@ public abstract class Entity {
 
 	protected Rectangle bounds;
 	protected Point pos;
-
 	protected Point origin;
-
-	protected Image sprite;
-
 	protected Map map;
+
+	// Graphical stuff
+	protected SpriteSheet sprite;
+	protected Animation current_animation;
+	protected AnimationSet animations;
 
 	protected float depth;
 
+	// Physics stuff
 	protected float speed = 0;
 	protected float max_speed;
-	protected float direction;
+	protected float direction, look_direction;
 	protected float acceleration;
 
-	protected int image_index = 0;
-
-	public Entity(Map m, float x, float y, Image sprite, float depth) {
+	public Entity(Map m, float x, float y, SpriteSheet sprite, float depth) {
 		// Set up basic collision masks
 		this.map = m;
 		this.sprite = sprite;
 
+		if(sprite == null)
+			System.out.println(this);
+		this.current_animation = new Animation(sprite, (int)((1f / (float)GameConstants.FPS) * 1000));
+		
 		this.depth = depth;
-
+		
 		if (this.sprite != null) {
 			origin = new Point(sprite.getWidth() / 2, sprite.getHeight() / 2);
 			bounds = new Rectangle(x - origin.getX(), y - origin.getY(), sprite.getWidth(), sprite.getHeight());
@@ -52,15 +60,42 @@ public abstract class Entity {
 	}
 
 	public void tick() {
+		
 		bounds.setX(pos.getX() - bounds.getWidth() / 2);
 		bounds.setY(pos.getY() - bounds.getHeight() / 2);
 		updateAlarms();
 		step();
 	}
 
+	public abstract void prerender(Graphics g);
+	
 	public void render(Graphics g) {
-		if (sprite != null)
-			g.drawImage(sprite, bounds.getX(), bounds.getY());
+		render(g, 1.0f, 1.0f);
+	}
+	
+	public void render(Graphics g, float climate, float lighting) {
+		prerender(g);
+		
+		Color renderCol = new Color(lighting, lighting, lighting);
+		
+		if (current_animation != null) {
+			if(speed != 0) {
+				current_animation.start();
+				
+				g.drawAnimation(current_animation, bounds.getX(), bounds.getY(), new Color(1.0f, 1.0f, 1.0f, 0f));
+				Image current_image = current_animation.getCurrentFrame().copy();
+				current_image.setRotation(direction);
+				if(this instanceof Player)
+					current_image.setRotation(look_direction);
+				g.drawImage(current_image, bounds.getX(), bounds.getY(), renderCol);
+			} else {
+				Image current_image = current_animation.getImage(0);
+				current_image.setRotation(direction);
+				if(this instanceof Player)
+					current_image.setRotation(look_direction);
+				g.drawImage(current_image, bounds.getX(), bounds.getY(), renderCol);
+			}
+		}
 		draw(g);
 	}
 

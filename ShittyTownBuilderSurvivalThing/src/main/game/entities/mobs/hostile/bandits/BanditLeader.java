@@ -1,14 +1,14 @@
 package main.game.entities.mobs.hostile.bandits;
 
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
+import org.newdawn.slick.SpriteSheet;
 
 import main.game.entities.mobs.hostile.Bandit;
 import main.game.map.Map;
 
 public class BanditLeader extends Bandit {
 
-	public BanditLeader(Map m, float x, float y, Image sprite) {
+	public BanditLeader(Map m, float x, float y, SpriteSheet sprite) {
 		super(m, x, y, sprite);
 		// TODO Auto-generated constructor stub
 	}

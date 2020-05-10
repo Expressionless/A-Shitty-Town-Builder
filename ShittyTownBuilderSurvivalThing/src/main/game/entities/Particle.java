@@ -20,7 +20,6 @@ public abstract class Particle extends Entity {
 
 	// Timer stuffs
 	protected int timer;
-	protected boolean destroy = false;
 
 	public static final HashMap<ParticleType, SpriteSheet> SPRITES = new HashMap<ParticleType, SpriteSheet>();
 
@@ -31,7 +30,7 @@ public abstract class Particle extends Entity {
 
 	public Particle(Emitter em, Image sprite, float x, float y, float direction, float acceleration, int depth,
 			int life, float size) {
-		super(em.getMap(), x, y, sprite, em.getDepth());
+		super(em.getMap(), x, y, ResourceLoader.toSpriteSheet(sprite), em.getDepth());
 		this.emitter = em;
 		this.pos = new Point(x, y);
 		this.direction = direction;
@@ -63,18 +62,20 @@ public abstract class Particle extends Entity {
 	@Override
 	public void draw(Graphics g) {
 	}
+	
+	@Override
+	public void prerender(Graphics g) {
+		
+	}
 
-	public void render(Graphics g) {
+	@Override
+	public void render(Graphics g, float climate, float lighting) {
 		drawParticle(g);
 	}
 
 	public abstract void updateParticle();
 
 	public abstract void drawParticle(Graphics g);
-
-	public boolean needsToDestroy() {
-		return destroy;
-	}
 	
 	// Getters and Setters
 	public Emitter getEmitter() {
