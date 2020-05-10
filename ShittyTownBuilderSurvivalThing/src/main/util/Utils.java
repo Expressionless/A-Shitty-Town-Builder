@@ -48,4 +48,12 @@ public class Utils {
 			return min + new Random().nextInt(variation);
 		else return min;
 	}
+	
+	public static float getRandInRange(float min, float max) {
+		float variation = max - min;
+		if(variation > 0) {
+			return min + new Random().nextFloat() * variation;
+		}
+		else return min;
+	}
 }

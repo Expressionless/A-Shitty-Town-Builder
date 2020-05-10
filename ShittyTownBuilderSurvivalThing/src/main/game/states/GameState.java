@@ -37,7 +37,6 @@ public class GameState extends State {
 		View view = map.getView();
 
 		Point offset = new Point(view.getViewBounds().getX(), view.getViewBounds().getY());
-
 		g.translate(-offset.getX(), -offset.getY());
 		g.scale(view.getZoom(), view.getZoom());
 		map.render(g);

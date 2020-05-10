@@ -13,6 +13,7 @@ import main.game.Entity;
 import main.game.controller.View;
 import main.game.entities.mobs.Player;
 import main.game.entities.mobs.neutral.Pig;
+import main.game.entities.props.Campfire;
 import main.util.Utils;
 
 public class Map {
@@ -42,10 +43,13 @@ public class Map {
 		float chunk_width_px = MapConstants.TILE_WIDTH * MapConstants.CHUNK_WIDTH;
 		float chunk_height_px = MapConstants.TILE_HEIGHT * MapConstants.CHUNK_HEIGHT;
 		player = new Player(this, (float) (width * chunk_width_px) / 2, (float) (height * chunk_height_px) / 2);
-		view = new View(this, player.getPos().getX() - GameConstants.WIDTH / 2,
-				player.getPos().getY() - GameConstants.HEIGHT / 2, GameConstants.WIDTH, GameConstants.HEIGHT, player);
-	}
+		while (view == null)
+			view = new View(this, player.getPos().getX() - GameConstants.WIDTH / 2,
+					player.getPos().getY() - GameConstants.HEIGHT / 2, GameConstants.WIDTH, GameConstants.HEIGHT,
+					player);
 
+		new Campfire(this, player.getPos().getX(), player.getPos().getY());
+	}
 
 	public void tick() {
 		// Update the view
@@ -57,7 +61,7 @@ public class Map {
 				biome.tick();
 			}
 		}
-		
+
 		// Update the entities
 		for (Entity entity : ENTITIES) {
 			entity.tick();
@@ -76,25 +80,25 @@ public class Map {
 				biome.render(g);
 			}
 		}
-		
+
 		// Render the entities if they're within the view
 		for (Entity entity : ENTITIES) {
 			if (view.rectInView(entity.getBounds()))
 				entity.render(g);
 		}
 	}
-	
+
 	public void generateBiomes(int x_count, int y_count) {
 		for (int y = 0; y < y_count; y++) {
 			for (int x = 0; x < x_count; x++) {
-				
+
 				// Get the biome size in chunks
 				int biome_width = Utils.getRandInRange(MapConstants.MIN_BIOME_WIDTH, MapConstants.MAX_BIOME_WIDTH);
 				int biome_height = Utils.getRandInRange(MapConstants.MIN_BIOME_HEIGHT, MapConstants.MAX_BIOME_HEIGHT);
 
 				float biome_width_px = biome_width * MapConstants.CHUNK_WIDTH_PX;
 				float biome_height_px = biome_height * MapConstants.CHUNK_HEIGHT_PX;
-				
+
 				// Get biome spacing
 				int biome_space_x = Utils.getRandInRange(MapConstants.MIN_BIOME_SPACING_X,
 						MapConstants.MAX_BIOME_SPACING_X);
@@ -103,7 +107,7 @@ public class Map {
 
 				float space_x_px = biome_space_x * MapConstants.CHUNK_WIDTH_PX;
 				float space_y_px = biome_space_y * MapConstants.CHUNK_HEIGHT_PX;
-				
+
 				// Get previous biome x & y
 				float prev_biome_x, prev_biome_y;
 

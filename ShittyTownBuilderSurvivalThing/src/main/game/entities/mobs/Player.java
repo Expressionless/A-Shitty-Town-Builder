@@ -9,13 +9,14 @@ import main.Engine;
 import main.GameConstants;
 import main.game.entities.Mob;
 import main.game.map.Map;
+import main.game.map.MapConstants;
 import main.util.ResourceLoader;
 import main.util.Utils;
 
 public class Player extends Mob {
 
 	public Player(Map m, float x, float y) {
-		super(m, x, y, ResourceLoader.SPRITES.get("player"), GameConstants.HUMAN_DEPTH);
+		super(m, x, y, ResourceLoader.SPRITES.get("player"), MapConstants.HUMAN_DEPTH);
 	}
 	
 	@Override

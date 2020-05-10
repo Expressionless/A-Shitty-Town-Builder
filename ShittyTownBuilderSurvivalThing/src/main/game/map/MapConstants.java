@@ -1,6 +1,12 @@
 package main.game.map;
 
 public class MapConstants {
+	
+	// Depth values
+	public static final int TREE_DEPTH = 48;
+	public static final int CAMPFIRE_DEPTH = 40;
+	public static final int HUMAN_DEPTH = 32;
+	public static final int MEDIUM_ANIMAL_DEPTH = 24;
 
 	// Chunk Size in tiles
 	public static final int CHUNK_WIDTH = 16;

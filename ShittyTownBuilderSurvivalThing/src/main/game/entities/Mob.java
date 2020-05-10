@@ -56,7 +56,7 @@ public abstract class Mob extends Entity {
 		if (Utils.getDistTo(pos, target) >= (bounds.getWidth() / 2)) {
 			direction = Utils.getPointDirection(pos, target);
 			if (speed < max_speed)
-				speed += acc;
+				speed += acceleration;
 			move(speed, direction);
 		} else
 			speed = 0;

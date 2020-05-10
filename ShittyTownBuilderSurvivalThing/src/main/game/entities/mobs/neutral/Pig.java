@@ -27,7 +27,7 @@ public class Pig extends Mob {
 	public static final int MAX_WAIT_TIME = 300; // 5 Seconds
 	
 	public Pig(Map m, float x, float y) {
-		super(m, x, y, null, GameConstants.MEDIUM_ANIMAL_DEPTH);
+		super(m, x, y, null, MapConstants.MEDIUM_ANIMAL_DEPTH);
 		walk_anim = new Animation(ss, 83);
 		origin = new Point(walk_anim.getWidth() / 2, walk_anim.getHeight() / 2);
 		bounds = new Rectangle(x - origin.getX() / 2, y - origin.getY() / 2, walk_anim.getWidth(), walk_anim.getHeight());
@@ -35,7 +35,7 @@ public class Pig extends Mob {
 		// Init stats
 		speed = 0;
 		max_speed = 1;
-		acc = 0.1f;
+		acceleration = 0.1f;
 		
 		walk_anim.setLooping(true);
 	}

@@ -1,16 +1,18 @@
 package main.game;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
+import main.game.entities.Particle;
 import main.game.map.Map;
 
 public abstract class Entity {
 
-	protected int[] alarm = {-1, -1, -1, -1, -1};
-	
+	protected int[] alarm = { -1, -1, -1, -1, -1 };
+
 	protected Rectangle bounds;
 	protected Point pos;
 
@@ -21,22 +23,22 @@ public abstract class Entity {
 	protected Map map;
 
 	protected float depth;
-	
+
 	protected float speed = 0;
 	protected float max_speed;
 	protected float direction;
-	protected float acc;
-	
+	protected float acceleration;
+
 	protected int image_index = 0;
-	
+
 	public Entity(Map m, float x, float y, Image sprite, float depth) {
 		// Set up basic collision masks
 		this.map = m;
 		this.sprite = sprite;
-		
+
 		this.depth = depth;
-		
-		if(this.sprite != null) {
+
+		if (this.sprite != null) {
 			origin = new Point(sprite.getWidth() / 2, sprite.getHeight() / 2);
 			bounds = new Rectangle(x - origin.getX(), y - origin.getY(), sprite.getWidth(), sprite.getHeight());
 		} else {
@@ -44,7 +46,9 @@ public abstract class Entity {
 			bounds = null;
 		}
 		pos = new Point(x, y);
-		map.addEntity(this);
+		// Particle render and tick is handled by emitter
+		if(!(this instanceof Particle))
+			map.addEntity(this);
 	}
 
 	public void tick() {
@@ -55,24 +59,43 @@ public abstract class Entity {
 	}
 
 	public void render(Graphics g) {
-		if(sprite != null)
+		if (sprite != null)
 			g.drawImage(sprite, bounds.getX(), bounds.getY());
 		draw(g);
 	}
 
-	public abstract void step();
-	public abstract void draw(Graphics g);
+	public void drawImageScaled(Graphics g, Image image, float x, float y, float scale, Color c) {
+		float x1 = x;
+		float y1 = y;
+		float x2 = x + image.getWidth() * scale;
+		float y2 = y + image.getHeight() * scale;
+		
+		float srcx1 = 0;
+		float srcy1 = 0;
+		float srcx2 = image.getWidth();
+		float srcy2 = image.getHeight();
+		
+		g.drawImage(image, x1, y1, x2, y2, srcx1, srcy1, srcx2, srcy2, c);
+	}
 	
+	public void drawImageScaled(Graphics g, Image image, float x, float y, float scale) {
+		drawImageScaled(g, image, x, y, scale, new Color(255, 255, 255, 255));
+	}
+
+	public abstract void step();
+
+	public abstract void draw(Graphics g);
+
 	// Alarm management
 	public void updateAlarms() {
-		for(int i = 0; i < alarm.length; i++) {
-			if(alarm[i] > -1) {
+		for (int i = 0; i < alarm.length; i++) {
+			if (alarm[i] > -1) {
 				alarm[i] -= 1;
 			}
 		}
 	}
-	
-	/*********************Getters and Setters***********************/
+
+	/********************* Getters and Setters ***********************/
 
 	public Rectangle getBounds() {
 		return bounds;
@@ -98,15 +121,15 @@ public abstract class Entity {
 	public void setDepth(float depth) {
 		this.depth = depth;
 	}
-	
+
 	public int[] getAlarms() {
 		return alarm;
 	}
-	
+
 	public int getAlarm(int index) {
 		return alarm[index];
 	}
-	
+
 	public void setAlarm(int index, int value) {
 		alarm[index] = value;
 	}

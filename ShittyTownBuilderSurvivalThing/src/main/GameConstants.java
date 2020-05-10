@@ -8,6 +8,8 @@ public class GameConstants {
 
 	public static final String ABS_PATH = new File("").getAbsolutePath();
 
+	public static final int FPS = 60;
+	
 	public static final String TITLE = "SHITTY TOWN BUILDER";
 	public static final int WIDTH = 1280;
 	public static final int HEIGHT = 720;
@@ -23,10 +25,6 @@ public class GameConstants {
 	public static final int PLAYER_DOWN = Input.KEY_S;
 	public static final int PLAYER_RIGHT = Input.KEY_D;
 	
-	// Depth values
-	public static final int TREE_DEPTH = 40;
-	public static final int HUMAN_DEPTH = 32;
-	public static final int MEDIUM_ANIMAL_DEPTH = 24;
 	
 	// Mob States
 	public static final int STATE_IDLE = 0;

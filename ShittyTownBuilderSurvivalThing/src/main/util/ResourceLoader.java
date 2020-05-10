@@ -1,5 +1,7 @@
 package main.util;
 
+import static main.GameConstants.ABS_PATH;
+
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.IOException;
@@ -11,8 +13,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.TrueTypeFont;
 
-import static main.GameConstants.*;
-
+import main.game.entities.Particle;
 import main.game.map.Map;
 
 public class ResourceLoader {
@@ -69,6 +70,7 @@ public class ResourceLoader {
 			e.printStackTrace();
 		}
 		// Don't change the load order please
+		Particle.loadSprites();
 		loadSpriteSheets();
 		//loadMenuSprites();
 		loadSprites();
@@ -118,6 +120,13 @@ public class ResourceLoader {
 		return i;
 	}
 
+	/**
+	 * 
+	 * @param dir Relative to project path
+	 * @param tw Tile Width (px)
+	 * @param th TIle Height (px)
+	 * @return A Sprite Sheet loaded from the given path with Tile width tw and Tile height th
+	 */
 	public static SpriteSheet loadSpriteSheet(String dir, int tw, int th) {
 		SpriteSheet ss;
 		try {
@@ -127,11 +136,11 @@ public class ResourceLoader {
 			ss.clampTexture();
 			return ss;
 		} catch (SlickException e) {
-			System.err.println("Failed to load Sprite Sheet at: " + dir + " (SlickException)");
+			System.err.println("Failed to load Sprite Sheet at: " + ABS_PATH + dir + " (SlickException)");
 			e.printStackTrace();
 			return missingSS;
 		} catch (RuntimeException e) {
-			System.err.println("Failed to load Sprite Sheet at: " + dir + " (RuntimeException)");
+			System.err.println("Failed to load Sprite Sheet at: " + ABS_PATH + dir + " (RuntimeException)");
 			return missingSS;
 		}
 	}

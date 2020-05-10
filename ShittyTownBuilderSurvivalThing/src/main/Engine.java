@@ -34,7 +34,7 @@ public class Engine implements Game {
 		// Initialize the Frame Window
 		try {
 			appgc = new AppGameContainer(this);
-			appgc.setTargetFrameRate(60);
+			appgc.setTargetFrameRate(GameConstants.FPS);
 			appgc.setShowFPS(false);
 			appgc.setDisplayMode(GameConstants.WIDTH, GameConstants.HEIGHT, false);
 			appgc.start();
