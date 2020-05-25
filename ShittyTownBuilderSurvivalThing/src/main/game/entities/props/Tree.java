@@ -20,6 +20,12 @@ public class Tree extends Prop {
 		super(m, x, y, ResourceLoader.toSpriteSheet(TREES.getSubImage(type, 0).copy()), MapConstants.TREE_DEPTH);
 		sprite.rotate(new Random().nextInt(360));
 	}
+	
+	@Override
+	public void initAnimations() {
+		
+	}
+	
 
 	@Override
 	public void step() {

@@ -17,6 +17,11 @@ public class Woodcutter extends Villager {
 	}
 
 	@Override
+	public void initAnimations() {
+		
+	}
+	
+	@Override
 	public void step() {
 		// TODO Auto-generated method stub
 		

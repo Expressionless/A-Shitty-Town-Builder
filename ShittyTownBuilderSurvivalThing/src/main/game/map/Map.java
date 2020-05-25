@@ -13,7 +13,7 @@ import main.GameConstants;
 import main.game.Entity;
 import main.game.controller.View;
 import main.game.entities.mobs.Player;
-import main.game.entities.props.Campfire;
+import main.game.entities.props.BanditCamp;
 import main.util.Utils;
 
 public class Map {
@@ -51,17 +51,17 @@ public class Map {
 		// Create the chunk array
 		chunks = new Chunk[chunk_count_y][chunk_count_x];
 		generateChunks(chunk_count_x, chunk_count_y);
-
-		float chunk_width_px = MapConstants.TILE_WIDTH * MapConstants.CHUNK_WIDTH;
-		float chunk_height_px = MapConstants.TILE_HEIGHT * MapConstants.CHUNK_HEIGHT;
-
+		
 		player = new Player(this, (float) (width) / 2, (float) (height) / 2);
+				
 		while (view == null)
 			view = new View(this, player.getPos().getX() - GameConstants.WIDTH / 2,
 					player.getPos().getY() - GameConstants.HEIGHT / 2, GameConstants.WIDTH, GameConstants.HEIGHT,
 					player);
+		
+		new BanditCamp(this, player.getPos().getX(), player.getPos().getY(), 2);
 
-		new Campfire(this, player.getPos().getX(), player.getPos().getY());
+		new BanditCamp(this, player.getPos().getX(), player.getPos().getY() + 400, 3);
 	}
 
 	public void tick() {

@@ -2,6 +2,7 @@ package main.util;
 
 import java.util.Random;
 
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Point;
 
 public class Utils {
@@ -33,6 +34,17 @@ public class Utils {
 			return angle;
 		} else
 			return 360 - angle;
+	}
+	
+	public static SpriteSheet pickFromSpriteSheet(SpriteSheet ss) {
+		int width = ss.getHorizontalCount();
+		int height = ss.getVerticalCount();
+		Random r = new Random();
+		
+		int x = r.nextInt(width);
+		int y = r.nextInt(height);
+		
+		return ResourceLoader.toSpriteSheet(ss.getSubImage(x, y));
 	}
 	
 	/**

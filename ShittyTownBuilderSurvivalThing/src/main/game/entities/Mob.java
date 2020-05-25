@@ -4,7 +4,6 @@ package main.game.entities;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Point;
-import org.newdawn.slick.opengl.Texture;
 
 import main.GameConstants;
 import main.game.Entity;

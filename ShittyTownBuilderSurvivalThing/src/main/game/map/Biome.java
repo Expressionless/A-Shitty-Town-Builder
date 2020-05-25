@@ -39,11 +39,11 @@ public class Biome {
 	}
 
 	public void render(Graphics g) {
-		/*
+		
 		g.setColor(Color.blue);
 		g.draw(radius);
 		g.drawString(type.name(), centrePos.getX(), centrePos.getY());
-		*/
+		
 	}
 	
 	public Chunk createChunk(float x, float y) {

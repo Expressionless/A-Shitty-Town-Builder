@@ -14,6 +14,7 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.TrueTypeFont;
 
 import main.game.entities.Particle;
+import main.game.entities.mobs.hostile.Bandit;
 
 public class ResourceLoader {
 
@@ -75,6 +76,7 @@ public class ResourceLoader {
 		}
 		// Don't change the load order please
 		Particle.loadSprites();
+		Bandit.loadResources();
 		loadSpriteSheets();
 		//loadMenuSprites();
 		loadSprites();
@@ -82,7 +84,7 @@ public class ResourceLoader {
 	}
 
 	public static TrueTypeFont loadFont(String font, int size) {
-		InputStream is = org.newdawn.slick.util.ResourceLoader.getResourceAsStream("res\\font\\" + font);
+		InputStream is = org.newdawn.slick.util.ResourceLoader.getResourceAsStream("src\\res\\font\\" + font);
 		TrueTypeFont ttf = null;
 		try {
 			Font f = Font.createFont(Font.TRUETYPE_FONT, is);

@@ -26,6 +26,7 @@ public abstract class Particle extends Entity {
 	// Load the sprites
 	public static void loadSprites() {
 		SPRITES.put(ParticleType.FLAME, ResourceLoader.loadSpriteSheet("\\res\\sprites\\particles\\flame", 12, 12));
+		SPRITES.put(ParticleType.FLAME_BRIGHT, ResourceLoader.loadSpriteSheet("\\res\\sprites\\particles\\flame_bright", 12, 12));
 	}
 
 	public Particle(Emitter em, Image sprite, float x, float y, float direction, float acceleration, int depth,
@@ -42,6 +43,11 @@ public abstract class Particle extends Entity {
 		this.depth = depth;
 	}
 
+	@Override
+	public void initAnimations() {
+		
+	}
+	
 	@Override
 	public void step() {
 		if (timer == -1) {

@@ -37,6 +37,11 @@ public class Pig extends Mob {
 	}
 
 	@Override
+	public void initAnimations() {
+		
+	}
+	
+	@Override
 	public void step() {
 		// TODO Auto-generated method stub
 	}

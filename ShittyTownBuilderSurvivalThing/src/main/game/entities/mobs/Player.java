@@ -16,6 +16,12 @@ import main.game.map.MapConstants;
 import main.util.ResourceLoader;
 import main.util.Utils;
 
+enum State {
+	IDLE,
+	MOVING,
+	ATTACKING
+}
+
 public class Player extends Mob {
 
 	private Animation legs;
@@ -24,6 +30,10 @@ public class Player extends Mob {
 		super(m, x, y, ResourceLoader.SPRITE_SHEETS.get("player"), MapConstants.HUMAN_DEPTH);
 		this.current_animation = new Animation(sprite, (int)((1000 / GameConstants.FPS)));
 		legs = new Animation(ResourceLoader.SPRITE_SHEETS.get("player_legs"), 83);
+	}
+	
+	public void initAnimations() {
+		
 	}
 	
 	@Override

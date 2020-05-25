@@ -1,5 +1,7 @@
 package main.game;
 
+import java.util.HashMap;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -25,7 +27,8 @@ public abstract class Entity {
 	// Graphical stuff
 	protected SpriteSheet sprite;
 	protected Animation current_animation;
-	protected AnimationSet animations;
+
+	protected final HashMap<Anim, Animation> animations = new HashMap<Anim, Animation>();
 
 	protected float depth;
 
@@ -54,6 +57,9 @@ public abstract class Entity {
 			bounds = null;
 		}
 		pos = new Point(x, y);
+		
+		initAnimations();
+		
 		// Particle render and tick is handled by emitter
 		if(!(this instanceof Particle))
 			map.addEntity(this);
@@ -68,6 +74,7 @@ public abstract class Entity {
 	}
 
 	public abstract void prerender(Graphics g);
+	public abstract void initAnimations();
 	
 	public void render(Graphics g) {
 		render(g, 1.0f, 1.0f);
