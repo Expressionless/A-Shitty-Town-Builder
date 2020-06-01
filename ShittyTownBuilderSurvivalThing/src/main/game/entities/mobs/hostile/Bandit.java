@@ -23,6 +23,7 @@ public abstract class Bandit extends Mob {
 		SPRITES.put("archer", loadSpriteSheet(path + "archer", 24, 24));
 		SPRITES.put("idle_hands", loadSpriteSheet(path + "idle_hands", 48, 48));
 		SPRITES.put("draw_cycle", loadSpriteSheet(path + "draw_cycle", 48, 48));
+		SPRITES.put("legs", loadSpriteSheet(path + "legs", 48, 48));
 	}
 	
 	public Bandit(Map m, float x, float y, SpriteSheet sprite) {

@@ -26,7 +26,4 @@ public class GameConstants {
 	public static final int PLAYER_RIGHT = Input.KEY_D;
 	
 	
-	// Mob States
-	public static final int STATE_IDLE = 0;
-	public static final int STATE_MOVING = 1;
 }

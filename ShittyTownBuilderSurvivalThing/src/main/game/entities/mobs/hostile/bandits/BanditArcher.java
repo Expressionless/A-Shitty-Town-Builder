@@ -1,7 +1,9 @@
 package main.game.entities.mobs.hostile.bandits;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Graphics;
 
+import main.game.Anim;
 import main.game.entities.mobs.hostile.Bandit;
 import main.game.map.Map;
 import main.util.Utils;
@@ -15,7 +17,9 @@ public class BanditArcher extends Bandit {
 
 	@Override
 	public void initAnimations() {
-		
+		addAnimation(Anim.WALK, new Animation(SPRITES.get("legs"), 83));
+		addAnimation(Anim.ATTACK, new Animation(SPRITES.get("draw_cycle"), 1000/3));
+		addAnimation(Anim.IDLE, new Animation(SPRITES.get("idle_hands"), 1000/3));
 	}
 	
 	@Override
@@ -27,7 +31,13 @@ public class BanditArcher extends Bandit {
 	@Override
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
-		
+		switch(state) {
+		case MOVING:
+			g.drawAnimation(animations.get(Anim.WALK), pos.getX(), pos.getY());
+			break;
+		default:
+			break;
+		}
 	}
 
 	@Override

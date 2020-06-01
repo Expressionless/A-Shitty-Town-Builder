@@ -137,6 +137,11 @@ public abstract class Entity {
 		}
 	}
 
+	// Add animation
+	public void addAnimation(Anim name, Animation a) {
+		animations.put(name, a);
+	}
+	
 	/********************* Getters and Setters ***********************/
 
 	public Rectangle getBounds() {

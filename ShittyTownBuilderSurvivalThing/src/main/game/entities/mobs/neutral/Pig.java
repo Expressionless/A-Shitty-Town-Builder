@@ -10,6 +10,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import main.GameConstants;
 import main.game.entities.Mob;
+import main.game.entities.MobState;
 import main.game.map.Map;
 import main.game.map.MapConstants;
 import main.util.ResourceLoader;
@@ -51,7 +52,7 @@ public class Pig extends Mob {
 	}
 	public void handleStates() {
 		switch (state) {
-		case GameConstants.STATE_IDLE:
+		case IDLE:
 			speed = 0;
 			if (alarm[0] == -1) {
 				// Set an alarm between 0.5 and 1.5 seconds, or 30 and 90 frames
@@ -69,22 +70,22 @@ public class Pig extends Mob {
 				des.setX(pos.getX() + lengthdir_x);
 				des.setY(pos.getY() + lengthdir_y);
 
-				state = GameConstants.STATE_MOVING;
+				state = MobState.MOVING;
 			}
 			break;
-		case GameConstants.STATE_MOVING:
+		case MOVING:
 			float distToPos = Utils.getDistTo(pos, des);
 
 			// Set a new alarm if at destination
 			if (distToPos < bounds.getWidth() / 2) {
-				setState(GameConstants.STATE_IDLE);
+				setState(MobState.IDLE);
 			} else {
 				moveTo(des);
 			}
 			break;
 		default:
 			System.err.println("Illegal State: " + state);
-			state = GameConstants.STATE_IDLE;
+			state = MobState.IDLE;
 		}
 	}
 

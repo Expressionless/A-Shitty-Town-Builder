@@ -17,7 +17,7 @@ public abstract class Mob extends Entity {
 	// Pathing stuff
 	protected Point des;
 
-	protected int state;
+	protected MobState state;
 
 	public Mob(Map m, float x, float y, SpriteSheet sprite, float depth) {
 		super(m, x, y, sprite, depth);
@@ -26,7 +26,7 @@ public abstract class Mob extends Entity {
 
 	public void init() {
 		des = new Point(pos.getX(), pos.getY());
-		state = GameConstants.STATE_IDLE;
+		state = MobState.IDLE;
 	}
 	
 	public abstract void handleStates();
@@ -74,11 +74,11 @@ public abstract class Mob extends Entity {
 		return des;
 	}
 
-	public int getState() {
+	public MobState getState() {
 		return state;
 	}
 
-	public void setState(int index) {
+	public void setState(MobState index) {
 		state = index;
 	}
 
